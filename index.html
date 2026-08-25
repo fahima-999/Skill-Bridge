@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillBridge - Bridge Your Skills & Opportunities</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/jobs.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <div class="glow glow-left"></div>
+    <div class="glow glow-right"></div>
+    <div class="glow glow-top"></div>
+    
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">+</div>
+            SkillBridge
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="jobs.html">Explore Jobs</a></li>
+            <li><a href="learner-dashboard.html">Skill Analysis</a></li>
+            <li><a href="learner-dashboard.html#courses">Learning Paths</a></li>
+        </ul>
+        <div id="nav-auth-container">
+            
+            <button id="open-login-btn" class="btn btn-nav">Login</button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="badge">
+            <span class="badge-new">NEW</span> AI-Powered Skill Gap Analysis
+        </div>
+        <h1>Bridge Your Skills for<br>Extraordinary Career Growth.</h1>
+        
+        <p>Analyze your skill gap with job requirements and get a personalized learning path to achieve your career goals effortlessly.</p>
+        
+        <div class="features-list">
+            <span><i class="icon-check"></i> Personalized Path</span>
+            <span><i class="icon-check"></i> Job Analysis</span>
+            <span><i class="icon-check"></i> Top Security</span>
+        </div>
+        
+        <div class="cta-group">
+            <a href="jobs.html" class="btn btn-dark" id="hero-get-started-btn">Explore SkillBridge <svg class="arrow-icon arrow-down-right" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="7" x2="17" y2="17"></line><polyline points="17 7 17 17 7 17"></polyline></svg></a>
+            <a href="#" class="btn btn-outline" id="hero-register-btn">Join Now <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>
+        </div>
+    </header>
+
+    <section class="how-it-works">
+        <div class="section-title">
+            <h2>How SkillBridge Works</h2>
+            <p>Your journey from skill gap to dream job</p>
+        </div>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-icon">1</div>
+                <h3>Identify Gap</h3>
+                <p>Our AI analyzes your current skills against market demands to find what's missing.</p>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-card">
+                <div class="step-icon">2</div>
+                <h3>Get Guideline</h3>
+                <p>Receive a personalized learning path tailored exactly to what you need to learn.</p>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-card">
+                <div class="step-icon">3</div>
+                <h3>Land the Job</h3>
+                <p>Apply for matched opportunities where you now meet all the requirements.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="jobs-section">
+        <div class="section-title">
+            <h2>Recommended Opportunities</h2>
+            <p>Explore jobs that match your current skill set</p>
+        </div>
+        <div id="jobs-container" class="jobs-grid">
+            <!-- Jobs injected via jobs.js -->
+        </div>
+        <div class="jobs-action">
+            <a href="jobs.html" class="btn btn-outline">View All Jobs <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <div class="logo-icon">+</div>
+                    SkillBridge
+                </div>
+                <p>Bridging the gap between your skills and your dream career.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Platform</h4>
+                    <a href="jobs.html">Explore Jobs</a>
+                    <a href="learner-dashboard.html">Skill Analysis</a>
+                    <a href="learner-dashboard.html">Learning Paths</a>
+                </div>
+                <div class="link-group">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SkillBridge. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <button id="modal-close" class="modal-close-btn" aria-label="Close modal">&times;</button>
+
+            <!-- Modal Header Tabs -->
+            <div class="auth-tabs">
+                <button type="button" class="auth-tab active" id="tab-login">Login</button>
+                <button type="button" class="auth-tab" id="tab-register">Register</button>
+            </div>
+
+            <!-- LOGIN VIEW -->
+            <div id="login-view" class="auth-view active">
+                <div class="auth-header">
+                    <h2>Welcome Back</h2>
+                    <p>Log in to access your dashboard & AI skill recommendations.</p>
+                </div>
+
+                <form id="login-form" class="auth-form" onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">✉️</span>
+                            <input type="email" id="login-email" placeholder="name@company.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-label-row">
+                            <label for="login-password">Password</label>
+                            <a href="#" class="forgot-pass-link">Forgot?</a>
+                        </div>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="login-password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" id="toggle-login-pass" aria-label="Toggle password visibility">👁️</button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" checked>
+                            <span class="checkmark"></span>
+                            Remember me on this device
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark btn-full">Sign In <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button>
+                </form>
+
+                <div class="auth-divider"><span>Or continue with</span></div>
+
+                <div class="auth-footer-text">
+                    Don't have an account? <a href="#" id="switch-to-register">Register now</a>
+                </div>
+            </div>
+
+            <!-- Social login removed -->
+
+            <!-- REGISTER VIEW -->
+            <div id="register-view" class="auth-view">
+                <div class="auth-header">
+                    <h2>Create Account</h2>
+                    <p>First, choose how you want to use SkillBridge:</p>
+                </div>
+
+                <div class="role-cards-container">
+                    <div class="role-card active" id="role-card-seeker" data-role="seeker">
+                        <div class="role-card-badge">Selected</div>
+                        <div class="role-card-icon">🧰</div>
+                        <div class="role-card-content">
+                            <h4>Job Seeker</h4>
+                            <p>Find jobs, analyze skill gap & get learning path.</p>
+                        </div>
+                    </div>
+
+                    <div class="role-card" id="role-card-recruiter" data-role="recruiter">
+                        <div class="role-card-badge">Select</div>
+                        <div class="role-card-icon">🏢</div>
+                        <div class="role-card-content">
+                            <h4>Recruiter</h4>
+                            <p>Post jobs & connect with top tech talent.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="register-form" class="auth-form" onsubmit="return false;">
+                    <input type="hidden" id="register-selected-role" value="seeker">
+
+                    <div class="form-group">
+                        <label for="reg-name">Full Name</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">👤</span>
+                            <input type="text" id="reg-name" placeholder="John Doe" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-email" id="reg-email-label">Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">✉️</span>
+                            <input type="email" id="reg-email" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="group-seeker-skills">
+                        <label for="reg-skills">Target Role / Skills</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">⚡</span>
+                            <input type="text" id="reg-skills" placeholder="e.g. Frontend Developer, React, Node.js">
+                        </div>
+                    </div>
+
+                    <div class="form-group hidden" id="group-recruiter-company">
+                        <label for="reg-company">Company Name</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">💼</span>
+                            <input type="text" id="reg-company" placeholder="e.g. Acme Inc.">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="reg-password" placeholder="Minimum 8 characters" required>
+                            <button type="button" class="toggle-password" id="toggle-reg-pass" aria-label="Toggle password visibility">👁️</button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" required checked>
+                            <span class="checkmark"></span>
+                            I agree to the <a href="#">Terms</a> & <a href="#">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark btn-full" id="reg-submit-btn">Create Job Seeker Account <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button>
+                </form>
+
+                <div class="auth-footer-text">
+                    Already have an account? <a href="#" id="switch-to-login">Log In</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <script src="js/global.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/jobs.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>

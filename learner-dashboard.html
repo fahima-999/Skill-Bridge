@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learner Dashboard & Skill Passport - SkillBridge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/learner-dashboard.css">
+    <link rel="stylesheet" href="css/jobs.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">+</div>
+            SkillBridge
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="jobs.html">Explore Jobs</a></li>
+            <li><a href="learner-dashboard.html" class="active">Skill Analysis</a></li>
+            <li><a href="learner-dashboard.html#courses">Learning Paths</a></li>
+        </ul>
+        <div id="nav-auth-container">
+            <button id="open-login-btn" class="btn btn-nav">Login</button>
+        </div>
+    </nav>
+
+    <div class="learner-dash-layout" style="max-width: 1300px; margin: 1.5rem auto; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); background: white;">
+        <!-- Sidebar Navigation -->
+        <aside class="learner-dash-sidebar">
+            <div class="sidebar-brand">
+                <div class="logo-icon">+</div>
+                <span class="brand-text">SkillBridge</span>
+            </div>
+
+            <div class="sidebar-user-mini">
+                <div class="user-avatar-mini" id="dash-user-avatar">AM</div>
+                <div class="user-info-mini">
+                    <h4 id="dash-sidebar-user-name">Alex Morgan</h4>
+                    <span class="user-role-badge" id="dash-sidebar-user-role">Frontend Learner</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="sidebar-nav-item active" data-tab="statistics">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Statistics</span>
+                </button>
+                <button class="sidebar-nav-item" data-tab="profile">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Profile</span>
+                </button>
+                <button class="sidebar-nav-item" data-tab="explore">
+                    <span class="nav-icon">🔍</span>
+                    <span class="nav-text">Explore Jobs</span>
+                </button>
+                <button class="sidebar-nav-item" data-tab="courses">
+                    <span class="nav-icon">🎓</span>
+                    <span class="nav-text">Learning Paths</span>
+                </button>
+                <button class="sidebar-nav-item" data-tab="settings">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Settings</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="pro-upgrade-card">
+                    <span class="badge-pro">PRO</span>
+                    <p>Unlock AI Skill Matching</p>
+                    <button class="btn btn-primary-sm" id="btn-upgrade-pro">Upgrade Plan</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="learner-dash-main">
+            <!-- 1. STATISTICS TAB -->
+            <div id="dash-tab-statistics" class="dash-tab-content active">
+                <div class="dash-tab-header">
+                    <div>
+                        <h2>Learning & Skill Statistics</h2>
+                        <p class="text-subtle">Track your study momentum, skill match score, and milestones</p>
+                    </div>
+                    <div class="header-actions">
+                        <span class="streak-badge">🔥 12 Days Streak</span>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-cards-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper bg-orange">⏱️</div>
+                        <div class="stat-details">
+                            <span class="stat-num" id="stat-study-hours">28.5 hrs</span>
+                            <span class="stat-label">Study Time This Month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper bg-green">🎯</div>
+                        <div class="stat-details">
+                            <span class="stat-num" id="stat-skill-match">88%</span>
+                            <span class="stat-label">Target Role Match</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper bg-purple">🏆</div>
+                        <div class="stat-details">
+                            <span class="stat-num" id="stat-courses-completed">4</span>
+                            <span class="stat-label">Courses Completed</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper bg-blue">⚡</div>
+                        <div class="stat-details">
+                            <span class="stat-num" id="stat-xp">940 XP</span>
+                            <span class="stat-label">Skill Points Earned</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Two Column -->
+                <div class="analytics-two-col">
+                    <div class="analytics-card">
+                        <h3>Weekly Learning Hours</h3>
+                        <div class="bar-chart-container">
+                            <div class="bar-col"><div class="bar" style="height: 45%;" data-val="3.2h"></div><span>Mon</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 70%;" data-val="5.0h"></div><span>Tue</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 35%;" data-val="2.5h"></div><span>Wed</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 85%;" data-val="6.1h"></div><span>Thu</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 60%;" data-val="4.4h"></div><span>Fri</span></div>
+                            <div class="bar-col active"><div class="bar" style="height: 95%;" data-val="6.8h"></div><span>Sat</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 20%;" data-val="1.5h"></div><span>Sun</span></div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-card">
+                        <h3>Skill Mastery Level</h3>
+                        <div class="skill-progress-list">
+                            <div class="skill-item">
+                                <div class="skill-info"><span>React.js & Architecture</span><span>85%</span></div>
+                                <div class="progress-bg"><div class="progress-fill" style="width: 85%;"></div></div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info"><span>TypeScript & Generics</span><span>75%</span></div>
+                                <div class="progress-bg"><div class="progress-fill" style="width: 75%;"></div></div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info"><span>Node.js & Async APIs</span><span>65%</span></div>
+                                <div class="progress-bg"><div class="progress-fill" style="width: 65%;"></div></div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info"><span>UI/UX & CSS Animations</span><span>92%</span></div>
+                                <div class="progress-bg"><div class="progress-fill" style="width: 92%;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. PROFILE TAB -->
+            <div id="dash-tab-profile" class="dash-tab-content">
+                <div class="dash-tab-header">
+                    <div>
+                        <h2>User Profile & Skill Passport</h2>
+                        <p class="text-subtle">Manage your personal info, target role, and technical skills</p>
+                    </div>
+                </div>
+
+                <div class="profile-layout-grid">
+                    <!-- Left Display Card -->
+                    <div class="profile-card-left">
+                        <div class="profile-avatar-large" id="profile-display-avatar">AM</div>
+                        <h3 id="profile-display-name">Alex Morgan</h3>
+                        <span class="profile-role-tag" id="profile-display-role">Job Seeker</span>
+                        <p class="profile-bio" id="profile-display-bio">Passionate software developer expanding skills in frontend engineering & AI integrations.</p>
+
+                        <div class="profile-meta-list">
+                            <div class="meta-item"><span>📧 Email:</span> <strong id="profile-display-email">seeker@example.com</strong></div>
+                            <div class="meta-item"><span>📍 Location:</span> <strong id="profile-display-location">San Francisco, CA</strong></div>
+                            <div class="meta-item"><span>💼 Target Role:</span> <strong id="profile-display-target">Senior Frontend Engineer</strong></div>
+                        </div>
+
+                        <div class="skills-cloud-section">
+                            <h4>Top Verified Skills</h4>
+                            <div class="skills-cloud" id="profile-skills-tags">
+                                <!-- Dynamic interactive skills -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Edit Form -->
+                    <div class="profile-form-right">
+                        <h3>Edit Profile Information</h3>
+                        <form id="profile-update-form">
+                            <div class="form-group">
+                                <label for="edit-profile-name">Full Name</label>
+                                <input type="text" id="edit-profile-name" value="Alex Morgan" required class="dash-input" placeholder="Enter full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-profile-account-role">Account Type</label>
+                                <select id="edit-profile-account-role" class="dash-input">
+                                    <option value="seeker">Job Seeker / Learner</option>
+                                    <option value="recruiter">Recruiter / Employer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-profile-role">Target Job Role</label>
+                                <input type="text" id="edit-profile-role" value="Senior Frontend Engineer" required class="dash-input" placeholder="e.g. Senior Frontend Engineer">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-profile-location">Location</label>
+                                <input type="text" id="edit-profile-location" value="San Francisco, CA" required class="dash-input" placeholder="e.g. San Francisco, CA">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-profile-bio">Short Bio</label>
+                                <textarea id="edit-profile-bio" rows="3" class="dash-input" placeholder="Tell us about your background & career goals...">Passionate software developer expanding skills in frontend engineering & AI integrations.</textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="add-skill-input">Technical Skills & Expertise</label>
+                                <div class="add-skill-input-group">
+                                    <input type="text" id="add-skill-input" placeholder="Add a new skill (e.g. React, Node.js, Python)" class="dash-input">
+                                    <button type="button" id="btn-add-skill" class="btn-outline-sm">+ Add Skill</button>
+                                </div>
+                                <div class="skills-manage-container" id="form-skills-list">
+                                    <!-- Interactive skill pills -->
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-dark">Save Profile Changes 💾</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. EXPLORE TAB (JOBS) -->
+            <div id="dash-tab-explore" class="dash-tab-content">
+                <div class="dash-tab-header">
+                    <div>
+                        <h2>Explore Matched Opportunities</h2>
+                        <p class="text-subtle">Discover AI-matched jobs tailored to your skill set, analyze skill gaps, and apply directly</p>
+                    </div>
+                </div>
+
+                <div class="explore-filters-row">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" id="explore-search-input" placeholder="Search by job title, company, or skill..." class="dash-input">
+                    </div>
+                    <div class="filter-pills" id="explore-filter-pills">
+                        <button class="filter-pill active" data-cat="all">All Jobs</button>
+                        <button class="filter-pill" data-cat="remote">Remote</button>
+                        <button class="filter-pill" data-cat="frontend">Frontend</button>
+                        <button class="filter-pill" data-cat="backend">Backend</button>
+                        <button class="filter-pill" data-cat="fullstack">Full Stack</button>
+                    </div>
+                </div>
+
+                <div class="explore-jobs-grid" id="explore-jobs-container">
+                    <!-- Injected dynamically via jobs.js -->
+                </div>
+            </div>
+
+            <!-- 4. COURSES & LEARNING PATHS TAB -->
+            <div id="dash-tab-courses" class="dash-tab-content">
+                <div class="dash-tab-header">
+                    <div>
+                        <h2>Gap Skill Courses & Learning Paths</h2>
+                        <p class="text-subtle">Master targeted skills like CSS, HTML, MongoDB, and Supabase to close your skill gaps and unlock higher job match scores</p>
+                    </div>
+                </div>
+
+                <div class="explore-filters-row">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" id="course-search-input" placeholder="Search courses by skill (CSS, HTML, MongoDB, Supabase...)" class="dash-input">
+                    </div>
+                    <div class="filter-pills" id="course-filter-pills">
+                        <button class="filter-pill active" data-skill="all">All Courses</button>
+                        <button class="filter-pill" data-skill="CSS">CSS 🎨</button>
+                        <button class="filter-pill" data-skill="HTML">HTML 🌐</button>
+                        <button class="filter-pill" data-skill="MongoDB">MongoDB 🍃</button>
+                        <button class="filter-pill" data-skill="Supabase">Supabase ⚡</button>
+                    </div>
+                </div>
+
+                <div class="courses-grid" id="courses-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+                    <!-- Dynamically populated by learner-dashboard.js -->
+                </div>
+            </div>
+
+            <!-- 5. SETTINGS TAB -->
+            <div id="dash-tab-settings" class="dash-tab-content">
+                <div class="dash-tab-header">
+                    <div>
+                        <h2>Account & Dashboard Settings</h2>
+                        <p class="text-subtle">Configure notifications, themes, and learning preferences</p>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>Notification Preferences</h3>
+                        <div class="setting-toggle-item">
+                            <div>
+                                <strong>Email Job Match Alerts</strong>
+                                <p class="text-subtle">Get notified when new jobs match 80%+ of your skills</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked id="setting-notify-jobs">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-toggle-item">
+                            <div>
+                                <strong>Weekly Progress Digest</strong>
+                                <p class="text-subtle">Receive weekly statistics digest and streak reminders</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked id="setting-notify-digest">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Appearance & Interface</h3>
+                        <div class="setting-toggle-item">
+                            <div>
+                                <strong>High Contrast Mode</strong>
+                                <p class="text-subtle">Enhance visual readability and card border definition</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="setting-high-contrast">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-toggle-item">
+                            <div>
+                                <strong>Auto-advance Modules</strong>
+                                <p class="text-subtle">Automatically unlock next module upon completing current lesson</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked id="setting-autoadvance">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <button id="save-settings-btn" class="btn btn-dark">Save Settings ⚙️</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Skill Gap Analysis Modal -->
+    <div id="skill-gap-modal" class="modal-overlay hidden">
+        <div class="modal-card" style="max-width: 650px; width: 92%;">
+            <button id="skill-gap-close-btn" class="modal-close-btn" aria-label="Close modal">&times;</button>
+            <div class="auth-header" style="margin-bottom: 1.25rem;">
+                <span class="dashboard-badge" style="background: rgba(99, 102, 241, 0.15); color: #818cf8; font-weight: 600; padding: 0.35rem 0.85rem; border-radius: 99px; font-size: 0.8rem;">Skill Gap Analysis</span>
+                <h2 id="modal-gap-job-title" style="margin-top: 0.5rem;">Job Title Analysis</h2>
+                <p id="modal-gap-company-name" style="color: #94a3b8;">Company Name</p>
+            </div>
+
+            <!-- Score overview -->
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.9rem; font-weight: 500; color: #cbd5e1;">Your Skill Match Score</span>
+                    <span id="modal-gap-score-badge" style="font-size: 1.1rem; font-weight: 700; color: #10b981;">0% Match</span>
+                </div>
+                <div style="width: 100%; height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 99px; overflow: hidden;">
+                    <div id="modal-gap-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #3b82f6, #10b981); transition: width 0.5s ease-in-out;"></div>
+                </div>
+            </div>
+
+            <!-- Matched Skills -->
+            <div style="margin-bottom: 1.25rem;">
+                <h4 style="font-size: 0.95rem; font-weight: 600; color: #10b981; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>✅</span> Matched Skills You Possess
+                </h4>
+                <div id="modal-matched-skills-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                    <!-- Injected dynamically -->
+                </div>
+            </div>
+
+            <!-- Missing Skills Gaps -->
+            <div style="margin-bottom: 1.25rem;">
+                <h4 style="font-size: 0.95rem; font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>⚠️</span> Skill Gaps Required for This Role
+                </h4>
+                <div id="modal-missing-skills-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                    <!-- Injected dynamically -->
+                </div>
+            </div>
+
+            <!-- Recommended Courses Section for Missing Gaps -->
+            <div id="modal-recommended-courses-section" style="margin-bottom: 1.5rem; display: none;">
+                <h4 style="font-size: 0.95rem; font-weight: 600; color: #818cf8; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>🎓</span> Recommended Courses for Your Gap Skills
+                </h4>
+                <div id="modal-gap-courses-container" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 240px; overflow-y: auto; padding-right: 0.25rem;">
+                    <!-- Injected dynamically via jobs.js -->
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <button id="btn-add-gaps-to-profile" class="btn btn-dark" style="flex: 1; min-width: 200px; justify-content: center; background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                    ⚡ Add Skill Gaps to My Profile
+                </button>
+                <button id="btn-close-gap-modal" class="btn btn-outline" style="min-width: 100px; justify-content: center;">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-notification" class="toast hidden">
+        <span class="toast-icon">✨</span>
+        <span id="toast-message">Action successful!</span>
+    </div>
+
+    <script src="js/courses.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/jobs.js"></script>
+    <script src="js/learner-dashboard.js"></script>
+</body>
+</html>

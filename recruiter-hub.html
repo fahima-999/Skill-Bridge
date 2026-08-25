@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Workspace & Job Hub - SkillBridge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/recruiter-hub.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">+</div>
+            SkillBridge
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="jobs.html">Explore Jobs</a></li>
+            <li><a href="recruiter-hub.html" class="active">Recruiter Hub</a></li>
+        </ul>
+        <div id="nav-auth-container">
+            <button id="open-login-btn" class="btn btn-nav">Login</button>
+        </div>
+    </nav>
+
+    <main style="max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem;">
+        <div class="modal-card dashboard-modal-card" style="transform: none; animation: none; max-width: 100%;">
+            <div class="dashboard-header">
+                <div class="dashboard-title-group">
+                    <span class="dashboard-badge">Recruiter Workspace</span>
+                    <h2 id="dash-recruiter-company">Company Dashboard</h2>
+                </div>
+                <button id="open-post-job-btn" class="btn btn-dark">+ Post New Job</button>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="dashboard-stats-grid">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icon">💼</div>
+                    <div class="dash-stat-info">
+                        <span class="dash-stat-value" id="dash-stat-active-jobs">0</span>
+                        <span class="dash-stat-label">Active Jobs</span>
+                    </div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icon">👥</div>
+                    <div class="dash-stat-info">
+                        <span class="dash-stat-value" id="dash-stat-applicants">0</span>
+                        <span class="dash-stat-label">Total Candidates</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Jobs Section -->
+            <div class="dashboard-section">
+                <div class="dashboard-section-header">
+                    <h3>Your Job Listings</h3>
+                    <span class="text-subtle">Real-time candidate matches</span>
+                </div>
+                <div class="dash-table-wrapper">
+                    <table class="dash-table">
+                        <thead>
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Company</th>
+                                <th>Location & Type</th>
+                                <th>Salary</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recruiter-jobs-list">
+                            <!-- Dynamic Jobs injected via recruiter-hub.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Received Applications & Resumes Section -->
+            <div class="dashboard-section" style="margin-top: 2.5rem;">
+                <div class="dashboard-section-header">
+                    <h3>📥 Candidate Applications & Uploaded Resumes</h3>
+                    <span class="text-subtle">Real-time candidate CV submissions stored in MongoDB</span>
+                </div>
+                <div class="dash-table-wrapper">
+                    <table class="dash-table">
+                        <thead>
+                            <tr>
+                                <th>Applicant Name</th>
+                                <th>Applied Position</th>
+                                <th>Contact & Role</th>
+                                <th>Verified Skills</th>
+                                <th>Uploaded CV</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recruiter-applications-list">
+                            <!-- Dynamic Applications injected via recruiter-hub.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Post New Job Modal -->
+    <div id="post-job-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <button id="post-job-close-btn" class="modal-close-btn">&times;</button>
+            <div class="auth-header">
+                <h2>Post a New Job</h2>
+                <p>Reach top skill-analyzed talent in seconds.</p>
+            </div>
+            <form id="post-job-form" class="auth-form" onsubmit="return false;">
+                <div class="form-group">
+                    <label for="job-post-title">Job Title</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">💼</span>
+                        <input type="text" id="job-post-title" placeholder="e.g. Senior React Developer" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="job-post-company">Company Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🏢</span>
+                        <input type="text" id="job-post-company" placeholder="e.g. Acme Corp" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="job-post-type">Job Type & Location</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📍</span>
+                        <input type="text" id="job-post-type" placeholder="e.g. Full-time • Remote" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="job-post-salary">Salary Range</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">💰</span>
+                        <input type="text" id="job-post-salary" placeholder="e.g. $120k - $150k" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="job-post-skills">Required Skills (comma separated)</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">⚡</span>
+                        <input type="text" id="job-post-skills" placeholder="e.g. React.js, Node.js, Express, MongoDB" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-dark btn-full">Publish Job Listing <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <button id="modal-close" class="modal-close-btn">&times;</button>
+            <div class="auth-tabs">
+                <button type="button" class="auth-tab active" id="tab-login">Login</button>
+                <button type="button" class="auth-tab" id="tab-register">Register</button>
+            </div>
+            <div id="login-view" class="auth-view active">
+                <div class="auth-header">
+                    <h2>Welcome Back</h2>
+                    <p>Log in to access your Recruiter Workspace.</p>
+                </div>
+                <form id="login-form" class="auth-form" onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">✉️</span>
+                            <input type="email" id="login-email" placeholder="recruiter@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="login-password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" id="toggle-login-pass">👁️</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark btn-full">Sign In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-notification" class="toast hidden">
+        <span class="toast-icon">✨</span>
+        <span id="toast-message">Action successful!</span>
+    </div>
+
+    <script src="js/global.js"></script>
+    <script src="js/recruiter-hub.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

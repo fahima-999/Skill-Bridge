@@ -1,0 +1,446 @@
+/* Auth Modal, Tabs, Inputs & Role Card Options */
+
+.auth-tabs {
+    display: flex;
+    background: #f3f4f6;
+    padding: 4px;
+    border-radius: 14px;
+    margin-bottom: 1.8rem;
+    gap: 4px;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 0.65rem 1rem;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-gray);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.auth-tab.active {
+    background: #ffffff;
+    color: var(--text-dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.auth-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+}
+
+.auth-header p {
+    font-size: 0.92rem;
+    color: var(--text-gray);
+    line-height: 1.45;
+}
+
+.auth-view {
+    display: none;
+}
+
+.auth-view.active {
+    display: block;
+    animation: fadeInView 0.25s ease forwards;
+}
+
+@keyframes fadeInView {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Role Selection Cards */
+.role-cards-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+}
+
+.role-card {
+    position: relative;
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1rem 0.85rem;
+    background: #fafafa;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.role-card:hover {
+    border-color: #d1d5db;
+    background: #ffffff;
+    transform: translateY(-2px);
+}
+
+.role-card.active {
+    border-color: var(--primary-color);
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(255, 106, 58, 0.12);
+}
+
+.role-card-badge {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 50px;
+    background: #e5e7eb;
+    color: var(--text-gray);
+    transition: all 0.2s ease;
+}
+
+.role-card.active .role-card-badge {
+    background: var(--primary-color);
+    color: #ffffff;
+}
+
+.role-card-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+    background: white;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.role-card-content h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.role-card-content p {
+    font-size: 0.76rem;
+    color: var(--text-gray);
+    line-height: 1.35;
+}
+
+/* Forms & Input Groups */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgot-pass-link {
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-pass-link:hover {
+    text-decoration: underline;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    font-size: 0.95rem;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.6rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.input-wrapper input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(255, 106, 58, 0.12);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0.8rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.toggle-password:hover {
+    opacity: 1;
+}
+
+.form-options {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--text-gray);
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-container a {
+    color: var(--text-dark);
+    text-decoration: underline;
+}
+
+.checkbox-container input {
+    accent-color: var(--primary-color);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.4rem 0 1rem;
+    color: #9ca3af;
+    font-size: 0.8rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.auth-divider span {
+    padding: 0 0.8rem;
+}
+
+.social-login {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.2rem;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-social:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+}
+
+.auth-footer-text {
+    text-align: center;
+    font-size: 0.86rem;
+    color: var(--text-gray);
+    margin-top: 0.5rem;
+}
+
+.auth-footer-text a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-footer-text a:hover {
+    text-decoration: underline;
+}
+/* ==========================================
+   SOCIAL (GOOGLE/LINKEDIN) MOCK ACCOUNT CHOOSER
+   ========================================== */
+
+.social-back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: none;
+    background: transparent;
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.3rem 0.2rem;
+    margin-bottom: 0.6rem;
+    transition: color 0.2s ease;
+}
+
+.social-back-btn:hover {
+    color: var(--text-dark);
+}
+
+.social-provider-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #4285F4;
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.9rem;
+}
+
+.social-accounts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 320px;
+    overflow-y: auto;
+    margin-bottom: 1.2rem;
+}
+
+.social-account-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    background: #ffffff;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.social-account-item:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+}
+
+.social-account-avatar {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-account-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.social-account-name {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.social-account-email {
+    font-size: 0.78rem;
+    color: var(--text-gray);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.social-account-role {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-gray);
+    background: #f3f4f6;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+}
+
+.social-accounts-loading,
+.social-accounts-empty {
+    text-align: center;
+    font-size: 0.88rem;
+    color: var(--text-gray);
+    padding: 1.4rem 0.5rem;
+    line-height: 1.6;
+}
+
+.social-accounts-empty a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.social-accounts-empty a:hover {
+    text-decoration: underline;
+}

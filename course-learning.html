@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Learning - SkillBridge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/course-learning.css">
+</head>
+<body>
+    <div class="course-learning-shell">
+        <aside class="course-learning-sidebar">
+            <div class="course-sidebar-top">
+                <button id="back-to-courses" class="ghost-btn">← Back to courses</button>
+                <div class="brand-mini">
+                    <span class="logo-icon">+</span>
+                    <span>SkillBridge</span>
+                </div>
+            </div>
+
+            <div class="course-summary-card">
+                <span id="course-badge" class="course-tag">Course</span>
+                <h1 id="course-title">Loading course...</h1>
+                <p id="course-meta">Preparing lessons</p>
+            </div>
+
+            <div class="course-section-header">
+                <span>Class Topics</span>
+                <span id="lesson-count-badge" class="lesson-count">0</span>
+            </div>
+
+            <nav id="course-topics" class="course-topics" aria-label="Course syllabus"></nav>
+        </aside>
+
+        <main class="course-learning-main">
+            <header class="lesson-header">
+                <div>
+                    <p class="eyebrow">Live learning session</p>
+                    <h2 id="active-lesson-title">Choose a class</h2>
+                </div>
+                <div class="progress-pill">
+                    <span id="progress-percent">0%</span>
+                    <small>completed</small>
+                </div>
+            </header>
+
+            <section class="video-panel">
+                <div class="video-frame">
+                    <iframe
+                        id="demo-video"
+                        src=""
+                        title="Course demo video"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen>
+                    </iframe>
+                    <div id="video-overlay" class="video-overlay">
+                        <button id="play-demo-btn" class="play-demo-btn">▶ Play demo</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="details-grid">
+                <article class="info-card">
+                    <h3>Lesson objective</h3>
+                    <p id="lesson-topic">Select a lesson to view the learning focus.</p>
+                </article>
+
+                <article class="info-card">
+                    <h3>What you will practice</h3>
+                    <ul id="lesson-actions" class="resource-list">
+                        <li>Open the lesson topic to see hands-on tasks.</li>
+                    </ul>
+                </article>
+            </section>
+        </main>
+    </div>
+
+    <div id="toast-notification" class="toast hidden">
+        <span class="toast-icon">✨</span>
+        <span id="toast-message">Action successful!</span>
+    </div>
+
+    <script src="js/courses.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/course-learning.js"></script>
+</body>
+</html>

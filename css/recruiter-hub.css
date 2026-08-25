@@ -1,0 +1,164 @@
+/* Recruiter Hub & Workspace Styling */
+.dashboard-modal-card {
+    max-width: 840px;
+    padding: 2.5rem;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.dashboard-badge {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--primary-color);
+    background: var(--primary-light);
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+}
+
+.dashboard-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Recruiter Stats Grid */
+.dashboard-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2.2rem;
+}
+
+.dash-stat-card {
+    background: #f9fafb;
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.2s ease;
+}
+
+.dash-stat-card:hover {
+    border-color: #d1d5db;
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+}
+
+.dash-stat-icon {
+    width: 48px;
+    height: 48px;
+    background: #ffffff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+.dash-stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.dash-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.dash-stat-label {
+    font-size: 0.82rem;
+    color: var(--text-gray);
+    font-weight: 500;
+}
+
+/* Active Listings Table */
+.dashboard-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.dashboard-section-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.text-subtle {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+}
+
+.dash-table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: #ffffff;
+}
+
+.dash-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.dash-table th {
+    background: #f9fafb;
+    padding: 0.85rem 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dash-table td {
+    padding: 0.95rem 1.2rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-dark);
+}
+
+.dash-table tr:last-child td {
+    border-bottom: none;
+}
+
+.dash-table tr:hover td {
+    background: #fafafa;
+}
+
+.btn-delete-job {
+    background: none;
+    border: 1px solid #fee2e2;
+    color: #ef4444;
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-delete-job:hover {
+    background: #fee2e2;
+}

@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "title": "Senior Frontend Developer",
+        "type": "Full-time • Remote",
+        "company": "TechNova",
+        "logo": "https://i.postimg.cc/15MxJ7Cv/technova.png",
+        "salary": "৳ 80,000 - ৳ 120,000 / month"
+    },
+    {
+        "id": 2,
+        "title": "Backend Engineer (Node.js)",
+        "type": "Full-time • On-site",
+        "company": "DataSync Ltd.",
+        "logo": "https://i.postimg.cc/65zsYbjH/datasync.jpg",
+        "salary": "৳ 60,000 - ৳ 90,000 / month"
+    },
+    {
+        "id": 3,
+        "title": "UI/UX Designer",
+        "type": "Contract • Hybrid",
+        "company": "Creative Minds",
+        "logo": "https://i.postimg.cc/zXpm02t0/creativeminds.jpg",
+        "salary": "৳ 40,000 - ৳ 70,000 / month"
+    },
+    {
+        "id": 4,
+        "title": "Full Stack Web Developer",
+        "type": "Full-time • Remote",
+        "company": "Webify Solutions",
+        "logo": "https://i.postimg.cc/5NpcnK7K/wefiy.jpg",
+        "salary": "৳ 70,000 - ৳ 100,000 / month"
+    },
+    {
+        "id": 5,
+        "title": "DevOps Engineer",
+        "type": "Full-time • Hybrid",
+        "company": "CloudSpace",
+        "logo": "https://i.postimg.cc/8Pw8tXKm/cloudspace.jpg",
+        "salary": "৳ 90,000 - ৳ 150,000 / month"
+    },
+    {
+        "id": 6,
+        "title": "Data Analyst",
+        "type": "Part-time • Remote",
+        "company": "Metrics Hub",
+        "logo": "https://i.postimg.cc/ncT80SRR/metricshub.jpg",
+        "salary": "৳ 30,000 - ৳ 50,000 / month"
+    }
+]
