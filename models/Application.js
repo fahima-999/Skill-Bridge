@@ -53,6 +53,20 @@ const applicationSchema = new mongoose.Schema({
         type: String,
         enum: ['Applied', 'Shortlisted', 'Rejected'],
         default: 'Applied'
+    },
+    // Audit trail of every email sent to this applicant. Always populated
+    // server-side from this same document's applicantEmail — never from
+    // client input — so history can't be mixed up between candidates.
+    emailHistory: {
+        type: [{
+            subject: { type: String, default: '' },
+            sentTo: { type: String, default: '' },
+            status: { type: String, enum: ['sent', 'failed'], default: 'sent' },
+            messageId: { type: String, default: null },
+            error: { type: String, default: null },
+            sentAt: { type: Date, default: Date.now }
+        }],
+        default: []
     }
 }, {
     timestamps: true

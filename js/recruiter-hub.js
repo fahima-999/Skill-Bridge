@@ -227,7 +227,7 @@ async function renderRecruiterApplicationsList() {
                             <button class="btn-status-app" data-id="${appId}" data-status="Rejected" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.3rem 0.5rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer;">
                                 Reject ✕
                             </button>
-                            <button class="btn-send-email" data-id="${appId}" data-email="${escapeHtml(app.applicantEmail)}" data-name="${escapeHtml(app.applicantName)}" data-job="${escapeHtml(app.jobTitle)}" style="background: rgba(59,130,246,0.08); color: #3b82f6; border: 1px solid rgba(59,130,246,0.15); padding: 0.3rem 0.55rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; display: ${app.status === 'Shortlisted' ? 'inline-flex' : 'none'};">
+                            <button class="btn-send-email" data-id="${appId}" data-name="${escapeHtml(app.applicantName)}" style="background: rgba(59,130,246,0.08); color: #3b82f6; border: 1px solid rgba(59,130,246,0.15); padding: 0.3rem 0.55rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; display: ${app.status === 'Shortlisted' ? 'inline-flex' : 'none'};">
                                 Send Email ✉️
                             </button>
                         </div>
@@ -278,37 +278,94 @@ async function renderRecruiterApplicationsList() {
                 });
             });
 
-            // Send Email Listeners (Resend)
+            // Send Email Listeners (Resend) — dynamic & applicant-specific.
+            //
+            // The client sends ONLY the Applicant ID (this row's Application._id).
+            // The server looks up that applicant's email fresh from MongoDB and
+            // sends to that address — we never pass an email, name, or job title
+            // from the client, so a stale row or leftover selected-candidate state
+            // can never cause an email to go to the wrong person.
             tbody.querySelectorAll('.btn-send-email').forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    const to = btn.getAttribute('data-email');
-                    const name = btn.getAttribute('data-name');
-                    const job = btn.getAttribute('data-job');
+                const originalLabel = btn.innerHTML;
+                const originalStyles = {
+                    background: btn.style.background,
+                    color: btn.style.color,
+                    borderColor: btn.style.borderColor
+                };
 
-                    if (!to) {
-                        showToast('⚠️ Candidate email unavailable.');
+                const resetButton = () => {
+                    btn.disabled = false;
+                    btn.style.opacity = '';
+                    btn.style.cursor = 'pointer';
+                    btn.innerHTML = originalLabel;
+                    btn.style.background = originalStyles.background;
+                    btn.style.color = originalStyles.color;
+                    btn.style.borderColor = originalStyles.borderColor;
+                };
+
+                btn.addEventListener('click', async () => {
+                    const applicantId = btn.getAttribute('data-id');
+                    const name = btn.getAttribute('data-name') || 'this candidate';
+
+                    if (!applicantId) {
+                        showToast('⚠️ Missing Applicant ID — cannot send email.');
                         return;
                     }
 
+                    // Guard against double-clicks while a send is already in flight.
+                    if (btn.disabled) return;
+
+                    // --- Loading state ---
+                    btn.disabled = true;
+                    btn.style.opacity = '0.65';
+                    btn.style.cursor = 'not-allowed';
+                    btn.innerHTML = 'Sending... ⏳';
+                    showToast(`✉️ Sending email to ${name}...`);
+
                     try {
-                        showToast('✉️ Sending email...');
-                        const res = await fetch(`${API_BASE_URL}/send-email`, {
+                        // Note: no "to" / email field in the body on purpose — the
+                        // Applicant ID in the URL is the only identifier the server
+                        // trusts to resolve the recipient.
+                        const res = await fetch(`${API_BASE_URL}/applications/${encodeURIComponent(applicantId)}/send-email`, {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ to, applicantName: name, jobTitle: job })
+                            headers: { 'Content-Type': 'application/json' }
                         });
                         const resp = await res.json();
                         console.log('Send-email API response:', resp);
+
                         if (res.ok && resp.success) {
+                            // --- Success state ---
                             const mid = resp.messageId || (resp.data && (resp.data.id || resp.data.messageId));
-                            showToast(`✅ Email sent (id: ${mid || 'unknown'}). Check spam if not in inbox.`);
+                            btn.innerHTML = 'Sent ✓';
+                            btn.style.background = 'rgba(16, 185, 129, 0.12)';
+                            btn.style.color = '#10b981';
+                            btn.style.borderColor = 'rgba(16, 185, 129, 0.35)';
+                            showToast(`✅ Email sent to ${resp.sentTo || name} (id: ${mid || 'unknown'}). Check spam if not in inbox.`);
+                            setTimeout(resetButton, 2500);
                         } else {
+                            // --- Error state ---
                             console.error('Send email response error:', resp);
-                            showToast('❌ Failed to send email. Check server logs for details.');
+                            btn.innerHTML = 'Failed ✕';
+                            btn.style.background = 'rgba(239, 68, 68, 0.12)';
+                            btn.style.color = '#ef4444';
+                            btn.style.borderColor = 'rgba(239, 68, 68, 0.35)';
+                            showToast(`❌ ${resp.message || 'Failed to send email. Check server logs for details.'}`);
+                            btn.disabled = false;
+                            btn.style.opacity = '';
+                            btn.style.cursor = 'pointer';
+                            setTimeout(resetButton, 3000);
                         }
                     } catch (err) {
+                        // --- Network/unexpected error state ---
                         console.error('Send Email Error:', err);
+                        btn.innerHTML = 'Failed ✕';
+                        btn.style.background = 'rgba(239, 68, 68, 0.12)';
+                        btn.style.color = '#ef4444';
                         showToast('❌ Error sending email to candidate.');
+                        btn.disabled = false;
+                        btn.style.opacity = '';
+                        btn.style.cursor = 'pointer';
+                        setTimeout(resetButton, 3000);
                     }
                 });
             });

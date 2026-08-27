@@ -434,13 +434,41 @@ app.patch('/api/applications/:id/status', async (req, res) => {
     }
 });
 
-// Send email to candidate using Resend
-app.post('/api/send-email', async (req, res) => {
+// Send email to a candidate using Resend — strictly resolved by Applicant ID.
+//
+// SECURITY / CORRECTNESS NOTE: this endpoint intentionally IGNORES any email
+// address, name, or job title the client might send in the request body.
+// The only thing the client provides is the Applicant ID (the Application
+// document's _id) in the URL. The recipient email, applicant name, and job
+// title are always re-fetched fresh from MongoDB using that ID. This makes
+// it impossible to send an email to the wrong applicant because of a stale
+// UI row, a previously-selected candidate, or a tampered client payload.
+app.post('/api/applications/:id/send-email', async (req, res) => {
+    const { id } = req.params;
+
+    // Validate the Applicant ID shape before touching the database.
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ success: false, message: 'A valid Applicant ID is required.' });
+    }
+
+    if (!resend) {
+        return res.status(503).json({ success: false, message: 'Email service is not configured on the server (missing RESEND_API_KEY).' });
+    }
+
     try {
-        const { to, applicantName, jobTitle } = req.body;
+        // Look up the applicant strictly by ID — this is the single source of
+        // truth for who the email goes to.
+        const application = await Application.findById(id);
+        if (!application) {
+            return res.status(404).json({ success: false, message: 'No applicant found for this Applicant ID.' });
+        }
+
+        const to = application.applicantEmail;
+        const applicantName = application.applicantName;
+        const jobTitle = application.jobTitle;
 
         if (!to) {
-            return res.status(400).json({ success: false, message: 'Recipient email (to) is required.' });
+            return res.status(400).json({ success: false, message: 'This applicant has no email address on file.' });
         }
 
         const subject = `Congratulations — selected for ${jobTitle || 'the role'}`;
@@ -453,9 +481,7 @@ app.post('/api/send-email', async (req, res) => {
 
         // IMPORTANT: The Resend SDK does NOT throw on API-level failures (invalid recipient,
         // unverified domain, sandbox restrictions, etc). It resolves with { data, error }.
-        // The old code ignored `result.error`, so this endpoint always returned success:true
-        // even when Resend rejected the send — that's why the UI showed "Email sent" while
-        // the candidate never actually got anything.
+        // We check `result.error` explicitly rather than assuming success.
         const result = await resend.emails.send({
             from: fromAddress,
             to: [to],
@@ -468,7 +494,19 @@ app.post('/api/send-email', async (req, res) => {
         console.log('Resend send result:', JSON.stringify(result));
 
         if (result && result.error) {
-            console.error(`❌ Resend rejected the email for ${to}:`, result.error);
+            console.error(`❌ Resend rejected the email for ${to} (Applicant ID ${id}):`, result.error);
+
+            // Record the failed attempt in this applicant's email history too,
+            // so recruiters can see it was tried and didn't go through.
+            application.emailHistory.push({
+                subject,
+                sentTo: to,
+                status: 'failed',
+                messageId: null,
+                error: result.error.message || result.error.name || 'Unknown Resend error'
+            });
+            await application.save();
+
             return res.status(502).json({
                 success: false,
                 message: `Resend could not deliver the email: ${result.error.message || result.error.name || 'Unknown Resend error'}`,
@@ -483,6 +521,16 @@ app.post('/api/send-email', async (req, res) => {
             // No error object, but also no message id back — treat as failure rather than
             // guessing it succeeded.
             console.error('⚠️ Resend returned no error but no message id either:', result);
+
+            application.emailHistory.push({
+                subject,
+                sentTo: to,
+                status: 'failed',
+                messageId: null,
+                error: 'Resend did not confirm the email was accepted.'
+            });
+            await application.save();
+
             return res.status(502).json({
                 success: false,
                 message: 'Resend did not confirm the email was accepted. It was not actually sent.',
@@ -490,11 +538,46 @@ app.post('/api/send-email', async (req, res) => {
             });
         }
 
-        console.log(`✉️ Email actually accepted by Resend for ${to} (job: ${jobTitle}) messageId=${messageId}`);
-        return res.json({ success: true, messageId, data: sentData });
+        // Save the successful send against THIS applicant's own document —
+        // never a different applicant's — since `application` was loaded by
+        // the Applicant ID and its email history is embedded on that same doc.
+        application.emailHistory.push({
+            subject,
+            sentTo: to,
+            status: 'sent',
+            messageId
+        });
+        await application.save();
+
+        console.log(`✉️ Email actually accepted by Resend for ${to} (Applicant ID: ${id}, job: ${jobTitle}) messageId=${messageId}`);
+        return res.json({ success: true, messageId, sentTo: to, applicantName, data: sentData });
     } catch (err) {
         console.error('Send Email Error:', err);
         return res.status(500).json({ success: false, message: 'Server error sending email', error: err.message });
+    }
+});
+
+// Get the email history for a specific applicant (by Applicant ID)
+app.get('/api/applications/:id/email-history', async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ success: false, message: 'A valid Applicant ID is required.' });
+        }
+
+        const application = await Application.findById(id).select('applicantName applicantEmail emailHistory');
+        if (!application) {
+            return res.status(404).json({ success: false, message: 'No applicant found for this Applicant ID.' });
+        }
+
+        return res.json({
+            success: true,
+            applicantName: application.applicantName,
+            applicantEmail: application.applicantEmail,
+            emailHistory: application.emailHistory || []
+        });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: err.message });
     }
 });
 
