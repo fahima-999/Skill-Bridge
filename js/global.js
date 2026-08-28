@@ -1,6 +1,5 @@
 const SVG_ARROW_UP_RIGHT = `<svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>`;
-const API_BASE_URL = 'http://localhost:5050/api';
-
+const API_BASE_URL = 'https://skill-bridge-egdp.onrender.com/api';
 document.addEventListener('DOMContentLoaded', () => {
     syncActiveUserWithMongoDB();
     renderNavAuth();

@@ -1,6 +1,14 @@
 /* Recruiter Hub & Job Posting Logic (MongoDB Integrated) */
 
+const EMAILJS_SERVICE_ID = 'service_5dklyt9';
+const EMAILJS_TEMPLATE_ID = 'template_nhjpyhq';
+const EMAILJS_PUBLIC_KEY = 'RDhLV50oErE22fx4F';
+let interviewDetailsResolver = null;
+
 document.addEventListener('DOMContentLoaded', () => {
+    if (window.emailjs) {
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    }
     initRecruiterHub();
 });
 
@@ -19,6 +27,35 @@ function initRecruiterHub() {
 
     renderRecruiterJobsList();
     renderRecruiterApplicationsList();
+
+    const interviewDetailsModal = document.getElementById('interview-details-modal');
+    const interviewDetailsForm = document.getElementById('interview-details-form');
+    const closeInterviewDetails = () => {
+        interviewDetailsModal.classList.add('hidden');
+        if (interviewDetailsResolver) {
+            interviewDetailsResolver(null);
+            interviewDetailsResolver = null;
+        }
+    };
+
+    document.getElementById('interview-details-close-btn')?.addEventListener('click', closeInterviewDetails);
+    document.getElementById('interview-details-cancel-btn')?.addEventListener('click', closeInterviewDetails);
+    interviewDetailsModal?.addEventListener('click', (event) => {
+        if (event.target === interviewDetailsModal) closeInterviewDetails();
+    });
+    interviewDetailsForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!interviewDetailsResolver) return;
+
+        const details = {
+            date: document.getElementById('interview-date').value,
+            time: document.getElementById('interview-time').value,
+            interviewType: document.getElementById('interview-type').value
+        };
+        interviewDetailsModal.classList.add('hidden');
+        interviewDetailsResolver(details);
+        interviewDetailsResolver = null;
+    });
 
     const postJobModal = document.getElementById('post-job-modal');
     const openPostJobBtn = document.getElementById('open-post-job-btn');
@@ -85,6 +122,23 @@ function initRecruiterHub() {
             }
         });
     }
+}
+
+function requestInterviewDetails(applicantName, applicantEmail) {
+    const modal = document.getElementById('interview-details-modal');
+    const form = document.getElementById('interview-details-form');
+    const applicantText = document.getElementById('interview-details-applicant');
+    if (!modal || !form) return Promise.resolve(null);
+
+    if (interviewDetailsResolver) interviewDetailsResolver(null);
+    form.reset();
+    applicantText.textContent = `Interview details for ${applicantName} (${applicantEmail})`;
+    modal.classList.remove('hidden');
+    document.getElementById('interview-date').focus();
+
+    return new Promise(resolve => {
+        interviewDetailsResolver = resolve;
+    });
 }
 
 async function renderRecruiterJobsList() {
@@ -278,13 +332,8 @@ async function renderRecruiterApplicationsList() {
                 });
             });
 
-            // Send Email Listeners (Resend) — dynamic & applicant-specific.
+            // Send Email Listeners (EmailJS) — dynamic & applicant-specific.
             //
-            // The client sends ONLY the Applicant ID (this row's Application._id).
-            // The server looks up that applicant's email fresh from MongoDB and
-            // sends to that address — we never pass an email, name, or job title
-            // from the client, so a stale row or leftover selected-candidate state
-            // can never cause an email to go to the wrong person.
             tbody.querySelectorAll('.btn-send-email').forEach(btn => {
                 const originalLabel = btn.innerHTML;
                 const originalStyles = {
@@ -306,11 +355,20 @@ async function renderRecruiterApplicationsList() {
                 btn.addEventListener('click', async () => {
                     const applicantId = btn.getAttribute('data-id');
                     const name = btn.getAttribute('data-name') || 'this candidate';
+                    const targetApp = apps.find(app => (app._id || app.id) === applicantId);
 
                     if (!applicantId) {
                         showToast('⚠️ Missing Applicant ID — cannot send email.');
                         return;
                     }
+
+                    if (!targetApp || !targetApp.applicantEmail) {
+                        showToast('⚠️ This applicant has no email address on file.');
+                        return;
+                    }
+
+                    const interviewDetails = await requestInterviewDetails(name, targetApp.applicantEmail);
+                    if (!interviewDetails) return;
 
                     // Guard against double-clicks while a send is already in flight.
                     if (btn.disabled) return;
@@ -323,33 +381,35 @@ async function renderRecruiterApplicationsList() {
                     showToast(`✉️ Sending email to ${name}...`);
 
                     try {
-                        // Note: no "to" / email field in the body on purpose — the
-                        // Applicant ID in the URL is the only identifier the server
-                        // trusts to resolve the recipient.
-                        const res = await fetch(`${API_BASE_URL}/applications/${encodeURIComponent(applicantId)}/send-email`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' }
-                        });
-                        const resp = await res.json();
-                        console.log('Send-email API response:', resp);
+                        if (!window.emailjs) {
+                            throw new Error('EmailJS could not be loaded. Check the network connection.');
+                        }
 
-                        if (res.ok && resp.success) {
+                        const emailResult = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                            to_email: targetApp.applicantEmail,
+                            name: targetApp.applicantName,
+                            date: interviewDetails.date,
+                            time: interviewDetails.time,
+                            interviewType: interviewDetails.interviewType
+                        });
+                        console.log('EmailJS send result:', emailResult);
+
+                        if (emailResult.status === 200) {
                             // --- Success state ---
-                            const mid = resp.messageId || (resp.data && (resp.data.id || resp.data.messageId));
                             btn.innerHTML = 'Sent ✓';
                             btn.style.background = 'rgba(16, 185, 129, 0.12)';
                             btn.style.color = '#10b981';
                             btn.style.borderColor = 'rgba(16, 185, 129, 0.35)';
-                            showToast(`✅ Email sent to ${resp.sentTo || name} (id: ${mid || 'unknown'}). Check spam if not in inbox.`);
+                            showToast(`✅ Interview email sent to ${targetApp.applicantEmail}. Check the applicant's inbox.`);
                             setTimeout(resetButton, 2500);
                         } else {
                             // --- Error state ---
-                            console.error('Send email response error:', resp);
+                            console.error('EmailJS response error:', emailResult);
                             btn.innerHTML = 'Failed ✕';
                             btn.style.background = 'rgba(239, 68, 68, 0.12)';
                             btn.style.color = '#ef4444';
                             btn.style.borderColor = 'rgba(239, 68, 68, 0.35)';
-                            showToast(`❌ ${resp.message || 'Failed to send email. Check server logs for details.'}`);
+                            showToast('❌ EmailJS could not send the interview email.');
                             btn.disabled = false;
                             btn.style.opacity = '';
                             btn.style.cursor = 'pointer';
